@@ -75,12 +75,21 @@ print(gc_data_[0].header)
 print(gc_data_[0].data)
 
 
-for i in gc_data_:
+class Data:
+    def __init__(
+        self, pp_header: list[str], pp_data: list[str], pp: list[float]
+    ) -> None:
+        self.pp_header: list[str] = pp_header
+        self.conc: list[float] = pp_data
+        self.pp: list[float] = pp
+
+
+for n, i in enumerate(gc_data_):
     print(i.sample_name)
     print(i.header)
     print(i.data)
-    conc: list[float] = []
     pp_header: list[str] = []
+    conc: list[float] = []
     for i in i.data:
         conc.append(float(i.split(",")[7]))
         pp_header.append(i.split(",")[10])
