@@ -63,12 +63,13 @@ filename = "ASCIIData_HMC53L002.txt"
 
 
 def load_data(filename: str) -> list[str]:
+
     init()
+
     with open(filename, "r", encoding="ISO-8859-1") as fp:
         data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
 
     header_indices = [n for n, i in enumerate(data) if "[Header]" in i]
-    num_data = sum(1 for _ in header_indices)
 
     for h in range(len(header_indices)):
         start = header_indices[h]
@@ -85,30 +86,21 @@ def load_data(filename: str) -> list[str]:
         gc_data.set_data(data[74:])
         gc_data.set_header(data[73].split(","))
         gc_data_.append(gc_data)
+    for n, i in enumerate(gc_data_):
+        pp_header: list[str] = []
+        conc: list[float] = []
+        for k in i.data:
+            conc.append(float(k.split(",")[7]))
+            pp_header.append(k.split(",")[10])
+        pp: list[float] = [i.pressure * j / 100 for i, j in zip(gc_data_, conc)]
+        i.set_ppdata(PPData(pp_header, conc, pp))
+
+    gc_data_sets: list[GCdata] = [
+        gc_data_[i : i + 3] for i in range(0, len(gc_data_), 3)
+    ]
+    for i in gc_data_sets:
+        for j in i:
+            print(j.ppdata.pp)
 
 
-# pp_data: list[PPData] = []
-# for n, i in enumerate(gc_data_):
-#     print(i.sample_name)
-#     print(i.header)
-#     print(i.data)
-#     pp_header: list[str] = []
-#     conc: list[float] = []
-#     for k in i.data:
-#         conc.append(float(k.split(",")[7]))
-#         pp_header.append(k.split(",")[10])
-#     pp: list[float] = [i.pressure * j / 100 for i, j in zip(gc_data_, conc)]
-#     print(pp_header)
-#     print(pp)
-#     print(conc)
-#     pp_data.append(PPData(i.sample_name, pp_header, conc, pp))
-
-
-# pp_data_sets = [pp_data[i : i + 3] for i in range(0, len(pp_data), 3)]
-
-# for i in pp_data_sets:
-#     print(i[0].sample_name)
-#     print(i[1].sample_name)
-#     print(i[2].sample_name)
-#     print("+++++++++++++++++++++++")
 load_data(filename)
