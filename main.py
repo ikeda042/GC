@@ -63,9 +63,16 @@ class GCdata:
 
 
 class GraphData:
-    def __init__(self, block_num: int, compound) -> None:
+
+    def __init__(
+        self,
+        block_num: int,
+        compound_raw: dict[str, list[float]],
+        compound: dict[str, float],
+    ) -> None:
         self.block_num: int = block_num
-        self.compound: dict[str, list[float]] = compound
+        self.compound_raw: dict[str, list[float]] = compound_raw
+        self.compound: dict[str, float] = compound
 
     def __repr__(self) -> str:
         return f"{self.block_num}|{self.compound}"
@@ -133,6 +140,9 @@ y_min, y_max = min(all_values), max(all_values)
 
 fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 5))
 for n, i in enumerate(graph_data):
+    ax[n].tick_params(
+        axis="x", which="both", bottom=False, top=False, labelbottom=False
+    )
     ax[n].tick_params(direction="in")
     ax[n].bar(i.compound.keys(), i.compound.values(), width=0.7, color="gray")
     ax[n].set_ylim(0, y_max + y_max * 0.1)
