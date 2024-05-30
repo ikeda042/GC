@@ -8,10 +8,13 @@ import numpy as np
 def init():
     try:
         shutil.rmtree("gcdata")
+        shutil.rmtree("graph")
+
     except:
         pass
     try:
         os.mkdir("gcdata")
+        os.mkdir("graph")
     except:
         pass
 
@@ -116,7 +119,6 @@ def load_data(filename: str) -> list[GraphData]:
                 compound_i[name] = sum(
                     [i[t].ppdata.pp[name_index] for t in range(len(i))]
                 ) / len(i)
-            break
         ret.append(GraphData(block_num=n, compound=compound_i))
     return ret
 
@@ -125,10 +127,24 @@ graph_data: list[GraphData] = load_data(filename)
 
 fig = plt.figure(figsize=(10, 10))
 
-for i in graph_data:
-    plt.plot(
-        list(i.compound.keys()), list(i.compound.values()), label=f"Block {i.block_num}"
-    )
+all_values = [value for i in graph_data for value in i.compound.values()]
+y_min, y_max = min(all_values), max(all_values)
 
-plt.legend()
-fig.savefig("output.png")
+for n, i in enumerate(graph_data):
+    bar_plot = plt.bar(i.compound.keys(), i.compound.values())
+    plt.ylim(0, y_max)
+    plt.legend()
+    plt.gca().tick_params(axis="x", direction="in", length=5)
+    fig.savefig(f"graph/{n}.png", dpi=300)
+
+    plt.clf()
+
+fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 5))
+for n, i in enumerate(graph_data):
+    ax[n].bar(i.compound.keys(), i.compound.values(), width=0.5, color="gray")
+    ax[n].set_ylim(0, y_max + y_max * 0.1)
+    ax[n].set_title(f"Sample {n} (n=3 / mean)")
+plt.tight_layout()
+
+fig.savefig("graph/summary.png", dpi=500)
+plt.clf()
