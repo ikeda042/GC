@@ -151,6 +151,13 @@ for n, i in enumerate(graph_data):
     )
     ax[n].tick_params(direction="in")
     ax[n].bar(i.compound.keys(), i.compound.values(), width=0.7, color="gray")
+    for k in i.compound.keys():
+        ax[n].scatter(
+            [k] * len(i.compound_raw[k]),
+            i.compound_raw[k],
+            color="black",
+            s=10,
+        )
     ax[n].set_ylim(0, y_max + y_max * 0.1)
     ax[n].set_title(f"Sample {n} (n=3 / mean)")
     ax[n].set_xlabel("Compound")
