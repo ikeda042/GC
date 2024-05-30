@@ -118,12 +118,18 @@ def load_data(filename: str) -> list[GraphData]:
     ret: list[GraphData] = []
     for n, i in enumerate(gc_data_sets):
         compound_i = {}
+        compound_raw_i = {}
         for j in i:
             for name_index, name in enumerate(j.ppdata.pp_header):
                 compound_i[name] = sum(
                     [i[t].ppdata.pp[name_index] for t in range(len(i))]
                 ) / len(i)
-        ret.append(GraphData(block_num=n, compound=compound_i))
+                compound_raw_i[name] = [
+                    i[t].ppdata.pp[name_index] for t in range(len(i))
+                ]
+        ret.append(
+            GraphData(block_num=n, compound_raw=compound_raw_i, compound=compound_i)
+        )
     return ret
 
 
