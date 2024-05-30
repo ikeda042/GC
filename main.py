@@ -7,11 +7,11 @@ import numpy as np
 
 def init():
     try:
-        shutil.rmtree("data")
+        shutil.rmtree("gcdata")
     except:
         pass
     try:
-        os.mkdir("data")
+        os.mkdir("gcdata")
     except:
         pass
 
@@ -73,13 +73,13 @@ def load_data(filename: str) -> list[str]:
     for h in range(len(header_indices)):
         start = header_indices[h]
         end = header_indices[h + 1] if h + 1 < len(header_indices) else None
-        with open(f"data/data_{h}.txt", "w") as fp:
+        with open(f"gcdata/data_{h}.txt", "w") as fp:
             for i in data[start:end]:
                 fp.write(i + "\n")
 
     gc_data_: list[GCdata] = []
-    for data_file in natsorted(os.listdir("data")):
-        with open(f"data/{data_file}", "r") as fp:
+    for data_file in natsorted(os.listdir("gcdata")):
+        with open(f"gcdata/{data_file}", "r") as fp:
             data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
         gc_data = GCdata(data[14], data[17])
         gc_data.set_data(data[74:])
