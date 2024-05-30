@@ -15,6 +15,7 @@ class GCdata:
             )
         except:
             self.pressure: float = 0.0
+        self.header: str = None
         self.data: list[str] = None
 
     def __repr__(self) -> str:
@@ -22,6 +23,9 @@ class GCdata:
 
     def set_data(self, data: str) -> None:
         self.data = data
+
+    def set_header(self, header: str) -> None:
+        self.header = header
 
 
 try:
@@ -55,6 +59,7 @@ for data_file in os.listdir("data"):
     with open(f"data/{data_file}", "r") as fp:
         data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
     gc_data = GCdata(data[14], data[17])
-    gc_data.set_data(data[19:])
+    gc_data.set_data(data[74:])
     gc_data_.append(gc_data)
-    print(gc_data.data)
+
+print(gc_data_[0].data)
