@@ -80,8 +80,11 @@ for i in gc_data_:
     print(i.header)
     print(i.data)
     conc: list[float] = []
+    pp_header: list[str] = []
     for i in i.data:
         conc.append(float(i.split(",")[7]))
+        pp_header.append(i.split(",")[10])
     pp: list[float] = [i.pressure * j / 100 for i, j in zip(gc_data_, conc)]
+    print(pp_header)
     print(pp)
     print(conc)
