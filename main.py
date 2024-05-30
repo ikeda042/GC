@@ -71,9 +71,6 @@ class GraphData:
         return f"{self.block_num}|{self.compound}"
 
 
-filename = "ASCIIData_HMC53L002.txt"
-
-
 def load_data(filename: str) -> list[GraphData]:
 
     init()
@@ -123,6 +120,9 @@ def load_data(filename: str) -> list[GraphData]:
     return ret
 
 
+############################################################################
+filename = "ASCIIData_HMC53L002.txt"
+############################################################################
 graph_data: list[GraphData] = load_data(filename)
 
 fig = plt.figure(figsize=(10, 10))
