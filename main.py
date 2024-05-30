@@ -122,3 +122,13 @@ def load_data(filename: str) -> list[GraphData]:
 
 
 graph_data: list[GraphData] = load_data(filename)
+
+fig = plt.figure(figsize=(10, 10))
+
+for i in graph_data:
+    plt.plot(
+        list(i.compound.keys()), list(i.compound.values()), label=f"Block {i.block_num}"
+    )
+
+plt.legend()
+fig.savefig("output.png")
