@@ -56,13 +56,19 @@ class GCdata:
         self.ppdata = ppdata
 
     def __repr__(self) -> str:
-        return f"{self.date_acquired},{self.sample_name},{self.pressure})"
+        return f"{self.ppdata.pp_header}\n{self.ppdata.pp}\n"
+
+
+class GraphData:
+    def __init__(self, block_num: int) -> None:
+        self.block_num: int = block_num
+        self.compounds: dict[str, list[float]] = {}
 
 
 filename = "ASCIIData_HMC53L002.txt"
 
 
-def load_data(filename: str) -> list[str]:
+def load_data(filename: str) -> list[list[GCdata]]:
 
     init()
 
@@ -98,9 +104,11 @@ def load_data(filename: str) -> list[str]:
     gc_data_sets: list[GCdata] = [
         gc_data_[i : i + 3] for i in range(0, len(gc_data_), 3)
     ]
+
     for i in gc_data_sets:
+        print("++++++++++++++++++++++++++++++")
         for j in i:
-            print(j.ppdata.pp)
+            print(j.sample_name)
 
 
 load_data(filename)
