@@ -134,7 +134,7 @@ def load_data(filename: str) -> list[GraphData]:
 
 
 ############################################################################
-filename = "ASCIIData_HMC53L002.txt"
+filename = "sample_data/ASCIIData_HMC53L002.txt"
 ############################################################################
 graph_data: list[GraphData] = load_data(filename)
 
