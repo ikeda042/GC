@@ -1,5 +1,6 @@
 import os
 from natsort import natsorted
+import shutil
 
 
 class GCdata:
@@ -30,10 +31,15 @@ class GCdata:
 
 
 try:
+    shutil.rmtree("data")
+except:
+    pass
+try:
     os.mkdir("data")
 except:
     pass
-with open("ASCIIData_HMC53L001.txt", "r") as fp:
+
+with open("ASCIIData_HMC53L002.txt", "r", encoding="ISO-8859-1") as fp:
     data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
 
 num_data: int = 0
@@ -63,6 +69,7 @@ for data_file in natsorted(os.listdir("data")):
     gc_data.set_data(data[74:])
     gc_data.set_header(data[73].split(","))
     gc_data_.append(gc_data)
+
 
 print(gc_data_[0].header)
 print(gc_data_[0].data)
