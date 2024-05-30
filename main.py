@@ -77,8 +77,13 @@ print(gc_data_[0].data)
 
 class PPData:
     def __init__(
-        self, pp_header: list[str], pp_data: list[str], pp: list[float]
+        self,
+        sample_name: str,
+        pp_header: list[str],
+        pp_data: list[str],
+        pp: list[float],
     ) -> None:
+        self.sample_name: str = sample_name
         self.pp_header: list[str] = pp_header
         self.conc: list[float] = pp_data
         self.pp: list[float] = pp
@@ -101,7 +106,4 @@ for n, i in enumerate(gc_data_):
     pp_data.append(PPData(pp_header, conc, pp))
 
 
-for i in pp_data:
-    print(i.pp_header)
-    print(i.conc)
-    print(i.pp)
+pp_data_sets = [pp_data[i : i + 3] for i in range(0, len(pp_data), 3)]
