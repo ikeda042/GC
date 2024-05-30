@@ -2,3 +2,5 @@
 !main.py
 !.gitignore
 !README.md
+!sample_data/
+!sample_data/*
