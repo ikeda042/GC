@@ -2,6 +2,8 @@ import os
 from natsort import natsorted
 import shutil
 from __future__ import annotations
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def init():
@@ -28,7 +30,7 @@ class GCdata:
                 .replace("s", "")
             )
         except:
-            self.pressure: float = 0.0
+            self.pressure: float = -np.inf
         self.header: list[str] = None
         self.data: list[str] = None
 
