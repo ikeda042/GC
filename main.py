@@ -1,4 +1,5 @@
 import os
+from natsort import natsorted
 
 
 class GCdata:
@@ -15,16 +16,16 @@ class GCdata:
             )
         except:
             self.pressure: float = 0.0
-        self.header: str = None
+        self.header: list[str] = None
         self.data: list[str] = None
 
     def __repr__(self) -> str:
         return f"{self.date_acquired},{self.sample_name},{self.pressure})"
 
-    def set_data(self, data: str) -> None:
+    def set_data(self, data: list[str]) -> None:
         self.data = data
 
-    def set_header(self, header: str) -> None:
+    def set_header(self, header: list[str]) -> None:
         self.header = header
 
 
@@ -55,11 +56,23 @@ with open(f"data/data_{num_data - 1}.txt", "w") as fp:
 
 
 gc_data_: list[GCdata] = []
-for data_file in os.listdir("data"):
+for data_file in natsorted(os.listdir("data")):
     with open(f"data/{data_file}", "r") as fp:
         data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
     gc_data = GCdata(data[14], data[17])
     gc_data.set_data(data[74:])
+    gc_data.set_header(data[73].split(","))
     gc_data_.append(gc_data)
 
+print(gc_data_[0].header)
 print(gc_data_[0].data)
+
+
+for i in gc_data_:
+    print(i.sample_name)
+    print(i.header)
+    print(i.data)
+    conc: list[float] = []
+    for i in i.data:
+        conc.append(float(i.split(",")[7]))
+    print(conc)
