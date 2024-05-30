@@ -1,6 +1,18 @@
 import os
 from natsort import natsorted
 import shutil
+from __future__ import annotations
+
+
+def init():
+    try:
+        shutil.rmtree("data")
+    except:
+        pass
+    try:
+        os.mkdir("data")
+    except:
+        pass
 
 
 class GCdata:
@@ -29,15 +41,6 @@ class GCdata:
     def set_header(self, header: list[str]) -> None:
         self.header = header
 
-
-try:
-    shutil.rmtree("data")
-except:
-    pass
-try:
-    os.mkdir("data")
-except:
-    pass
 
 with open("ASCIIData_HMC53L002.txt", "r", encoding="ISO-8859-1") as fp:
     data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
@@ -96,14 +99,20 @@ for n, i in enumerate(gc_data_):
     print(i.data)
     pp_header: list[str] = []
     conc: list[float] = []
-    for i in i.data:
-        conc.append(float(i.split(",")[7]))
-        pp_header.append(i.split(",")[10])
+    for k in i.data:
+        conc.append(float(k.split(",")[7]))
+        pp_header.append(k.split(",")[10])
     pp: list[float] = [i.pressure * j / 100 for i, j in zip(gc_data_, conc)]
     print(pp_header)
     print(pp)
     print(conc)
-    pp_data.append(PPData(pp_header, conc, pp))
+    pp_data.append(PPData(i.sample_name, pp_header, conc, pp))
 
 
 pp_data_sets = [pp_data[i : i + 3] for i in range(0, len(pp_data), 3)]
+
+for i in pp_data_sets:
+    print(i[0].sample_name)
+    print(i[1].sample_name)
+    print(i[2].sample_name)
+    print("+++++++++++++++++++++++")
