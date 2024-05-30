@@ -60,9 +60,9 @@ class GCdata:
 
 
 class GraphData:
-    def __init__(self, block_num: int) -> None:
+    def __init__(self, block_num: int, compound) -> None:
         self.block_num: int = block_num
-        self.compounds: dict[str, list[float]] = {}
+        self.compound: dict[str, list[float]] = compound
 
 
 filename = "ASCIIData_HMC53L002.txt"
@@ -105,10 +105,14 @@ def load_data(filename: str) -> list[list[GCdata]]:
         gc_data_[i : i + 3] for i in range(0, len(gc_data_), 3)
     ]
 
-    for i in gc_data_sets:
+    ret: list[GraphData] = []
+    for n, i in enumerate(gc_data_sets):
         print("++++++++++++++++++++++++++++++")
+        compound_i = {}
         for j in i:
-            print(j.sample_name)
+            for name in j.ppdata.pp_header:
+                compound_i[name] = sum([i.ppdata.pp[t] for t in range(len(i))]) / len(i)
+        ret.append(GraphData(block_num=n, compound=compound_i))
 
 
 load_data(filename)
