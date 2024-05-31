@@ -121,13 +121,13 @@ def load_data(filename: str) -> list[GraphData]:
         pp_header: list[str] = []
         conc: list[float] = []
         for k in i.data:
-            conc.append(float(k.split(",")[7]))
-            pp_header.append(k.split(",")[10])
+            conc.append(float(k.split(",")[5]))
+            pp_header.append(k.split(",")[1])
         pp: list[float] = [i.pressure * j / 100 for i, j in zip(gc_data_, conc)]
         i.set_ppdata(PPData(pp_header, conc, pp))
         tmp = {}
         for i in i.data:
-            tmp[i.split(",")[10]] = float(i.split(",")[7])/100
+            tmp[i.split(",")[10]] = float(i.split(",")[5])/100
         compounds_data.append(tmp)
 
     table_string += "Date,Pressure(bar),"+','.join([c for c in compounds_data[0].keys()])+"\n"
