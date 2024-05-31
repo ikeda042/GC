@@ -116,7 +116,7 @@ def load_data(filename: str) -> list[GraphData]:
         gc_data_.append(gc_data)
 
     table_string = ""
-    compounds_data = []
+    compounds_data:list[dict[str,str]] = []
     for n, i in enumerate(gc_data_):
         pp_header: list[str] = []
         conc: list[float] = []
@@ -129,9 +129,10 @@ def load_data(filename: str) -> list[GraphData]:
         for i in i.data:
             tmp[i.split(",")[10]] = float(i.split(",")[7]/100)
         compounds_data.append(tmp)
-        
+    
+    table_string += "Date,Pressure,"+','.join([c for c in compounds_data[0].keys()])+"\n"
     for i,c in zip(gc_data_,compounds_data):
-        table_string += f"{i.date_acquired.split(",")[-1]},{round(i.pressure,4)},{','.join([c[key] for key in ])}\n"
+        table_string += f"{i.date_acquired.split(",")[-1]},{round(i.pressure,4)},{','.join([c[key] for key in c.keys()])}\n"
 
     gc_data_sets: list[GCdata] = [
         gc_data_[i : i + 3] for i in range(0, len(gc_data_), 3)
