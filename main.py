@@ -67,10 +67,12 @@ class GraphData:
     def __init__(
         self,
         block_num: int,
+        date_acquired: str,
         compound_raw: dict[str, list[float]],
         compound: dict[str, float],
     ) -> None:
         self.block_num: int = block_num
+        self.date_acquired: str = date_acquired
         self.compound_raw: dict[str, list[float]] = compound_raw
         self.compound: dict[str, float] = compound
 
@@ -128,7 +130,12 @@ def load_data(filename: str) -> list[GraphData]:
                     i[t].ppdata.pp[name_index] for t in range(len(i))
                 ]
         ret.append(
-            GraphData(block_num=n, compound_raw=compound_raw_i, compound=compound_i)
+            GraphData(
+                block_num=n,
+                date_acquired=i[0].date_acquired,
+                compound_raw=compound_raw_i,
+                compound=compound_i,
+            )
         )
     return ret
 
@@ -159,9 +166,9 @@ for n, i in enumerate(graph_data):
             s=10,
         )
     ax[n].set_ylim(0, y_max + y_max * 0.1)
-    ax[n].set_title(f"Sample {n} (n=3 / mean)")
+    ax[n].set_title(f"{i.date_acquired.split(',')[-1]}")
     ax[n].set_xlabel("Compound")
     ax[n].set_ylabel("Pressure (bar)")
 
-fig.savefig("graph/summary.png", dpi=500)
+fig.savefig("graph/summary_pp.png", dpi=500)
 plt.clf()
