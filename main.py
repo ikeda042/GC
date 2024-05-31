@@ -116,8 +116,6 @@ def load_data(filename: str) -> list[GraphData]:
         gc_data_.append(gc_data)
 
     table_string = ""
-    table_string += "Date,Pressure(bar)\n"
-    
     for i in gc_data_:
         table_string += f"{i.date_acquired.split(",")[-1]},{round(i.pressure,4)}\n"
     for n, i in enumerate(gc_data_):
