@@ -80,16 +80,23 @@ class GraphData:
         return f"{self.block_num}|{self.compound}"
 
 
+def load_file(filename):
+    encodings = ["ISO-8859-1", "utf-8"]
+    for encoding in encodings:
+        try:
+            with open(filename, "r", encoding=encoding) as fp:
+                data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
+                return data
+        except:
+            pass
+    raise Exception("File not loaded")
+
+
 def load_data(filename: str) -> list[GraphData]:
 
     init()
 
-    try:
-        with open(filename, "r", encoding="ISO-8859-1") as fp:
-            data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
-    except:
-        with open(filename, "r") as fp:
-            data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
+    data = load_file(filename)
 
     header_indices = [n for n, i in enumerate(data) if "[Header]" in i]
 
