@@ -102,7 +102,7 @@ def load_data(filename: str) -> list[GraphData]:
     for h in range(len(header_indices)):
         start = header_indices[h]
         end = header_indices[h + 1] if h + 1 < len(header_indices) else None
-        with open(f"gcdata/data_{h}.txt", "w") as fp:
+        with open(f"gcdata/data_{h}.txt", "w",encoding="utf-8") as fp:
             for i in data[start:end]:
                 fp.write(str(i) + "\n")
 
