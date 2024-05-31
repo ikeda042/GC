@@ -84,8 +84,12 @@ def load_data(filename: str) -> list[GraphData]:
 
     init()
 
-    with open(filename, "r", encoding="ISO-8859-1") as fp:
-        data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
+    try:
+        with open(filename, "r", encoding="ISO-8859-1") as fp:
+            data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
+    except:
+        with open(filename, "r") as fp:
+            data = [i.replace("\n", "") for i in fp.readlines() if i.strip() != ""]
 
     header_indices = [n for n, i in enumerate(data) if "[Header]" in i]
 
