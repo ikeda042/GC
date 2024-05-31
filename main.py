@@ -104,7 +104,7 @@ def load_data(filename: str) -> list[GraphData]:
         end = header_indices[h + 1] if h + 1 < len(header_indices) else None
         with open(f"gcdata/data_{h}.txt", "w") as fp:
             for i in data[start:end]:
-                fp.write(i + "\n")
+                fp.write(str(i) + "\n")
 
     gc_data_: list[GCdata] = []
     for data_file in natsorted(os.listdir("gcdata")):
