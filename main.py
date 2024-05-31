@@ -80,7 +80,7 @@ class GraphData:
 
 
 def load_file(filename):
-    encodings = ["ISO-8859-1", "utf-8"]
+    encodings = ["ISO-8859-1"]
     for encoding in encodings:
         try:
             with open(filename, "r", encoding=encoding) as fp:
