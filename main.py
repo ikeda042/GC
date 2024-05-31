@@ -178,11 +178,15 @@ for n, i in enumerate(graph_data):
     ax[n].tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=True)
     ax[n].tick_params(direction="in")
 
-    # Calculate the standard deviation for each compound
     errors = [np.std(i.compound_raw[k]) for k in i.compound.keys()]
 
     ax[n].bar(
-        i.compound.keys(), i.compound.values(), width=0.7, color="gray", yerr=errors
+        i.compound.keys(),
+        i.compound.values(),
+        width=0.7,
+        color="gray",
+        yerr=errors,
+        capsize=5,  
     )
     for k in i.compound.keys():
         ax[n].scatter(
