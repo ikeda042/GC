@@ -127,7 +127,7 @@ def load_data(filename: str) -> list[GraphData]:
         i.set_ppdata(PPData(pp_header, conc, pp))
         tmp = {}
         for i in i.data:
-            tmp[i.split(",")[10]] = float(i.split(",")[5])/100
+            tmp[i.split(",")[1]] = float(i.split(",")[5])/100
         compounds_data.append(tmp)
 
     table_string += "Date,Pressure(bar),"+','.join([c for c in compounds_data[0].keys()])+"\n"
@@ -173,7 +173,7 @@ all_values = [value for i in graph_data for value in i.compound.values()]
 y_min, y_max = min(all_values), max(all_values)
 
 
-fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 4))
+fig, ax = plt.subplots(1, len(graph_data), figsize=(30, 4))
 for n, i in enumerate(graph_data):
     ax[n].tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=True)
     ax[n].tick_params(direction="in")
