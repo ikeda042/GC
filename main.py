@@ -63,7 +63,6 @@ class GCdata:
 
 
 class GraphData:
-
     def __init__(
         self,
         block_num: int,
@@ -115,6 +114,12 @@ def load_data(filename: str) -> list[GraphData]:
         gc_data.set_data(data[74:])
         gc_data.set_header(data[73].split(","))
         gc_data_.append(gc_data)
+
+    table_string = ""
+    table_string += "Date,Pressure(bar)\n"
+    
+    for i in gc_data_:
+        table_string += f"{i.date_acquired.split(",")[-1]},{round(i.pressure,4)}\n"
     for n, i in enumerate(gc_data_):
         pp_header: list[str] = []
         conc: list[float] = []
@@ -183,3 +188,5 @@ for n, i in enumerate(graph_data):
 
 fig.savefig("graph/summary_pp.png", dpi=500)
 plt.clf()
+
+fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 5))
