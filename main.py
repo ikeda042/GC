@@ -175,11 +175,15 @@ y_min, y_max = min(all_values), max(all_values)
 
 fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 4))
 for n, i in enumerate(graph_data):
-    ax[n].tick_params(
-        axis="x", which="both", bottom=False, top=False, labelbottom=True
-    )
+    ax[n].tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=True)
     ax[n].tick_params(direction="in")
-    ax[n].bar(i.compound.keys(), i.compound.values(), width=0.7, color="gray")
+
+    # Calculate the standard deviation for each compound
+    errors = [np.std(i.compound_raw[k]) for k in i.compound.keys()]
+
+    ax[n].bar(
+        i.compound.keys(), i.compound.values(), width=0.7, color="gray", yerr=errors
+    )
     for k in i.compound.keys():
         ax[n].scatter(
             [k] * len(i.compound_raw[k]),
