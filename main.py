@@ -173,10 +173,10 @@ all_values = [value for i in graph_data for value in i.compound.values()]
 y_min, y_max = min(all_values), max(all_values)
 
 
-fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 5))
+fig, ax = plt.subplots(1, len(graph_data), figsize=(15, 4))
 for n, i in enumerate(graph_data):
     ax[n].tick_params(
-        axis="x", which="both", bottom=False, top=False, labelbottom=False
+        axis="x", which="both", bottom=False, top=False, labelbottom=True
     )
     ax[n].tick_params(direction="in")
     ax[n].bar(i.compound.keys(), i.compound.values(), width=0.7, color="gray")
@@ -189,7 +189,7 @@ for n, i in enumerate(graph_data):
         )
     ax[n].set_ylim(0, y_max + y_max * 0.1)
     ax[n].set_title(f"{i.date_acquired.split(',')[-1]}")
-    ax[n].set_xlabel("Compound")
+    ax[n].set_xlabel("Gas Compound")
     ax[n].set_ylabel("Pressure (bar)")
 
 fig.savefig("graph/summary_pp.png", dpi=500)
